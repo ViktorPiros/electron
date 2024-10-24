@@ -5,7 +5,6 @@ const path = require('path');
 let users = [];
 const filePath = path.join(app.getPath('userData'), 'users.json');
 
-// Функция для загрузки пользователей из файла
 function loadUsers() {
     if (fs.existsSync(filePath)) {
         const data = fs.readFileSync(filePath);
@@ -13,7 +12,6 @@ function loadUsers() {
     }
 }
 
-// Функция для сохранения пользователей в файл
 function saveUsers() {
     fs.writeFileSync(filePath, JSON.stringify(users));
 }
@@ -34,13 +32,13 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
-    loadUsers(); // Загружаем пользователей при старте приложения
+    loadUsers();
     createWindow();
 });
 
 ipcMain.on('addUser', (event, user) => {
     users.push(user);
-    saveUsers(); // Сохраняем пользователей после добавления
+    saveUsers();
     event.sender.send('users-updated', users);
 });
 
